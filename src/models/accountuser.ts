@@ -17,12 +17,12 @@ import mongoose from '../providers/Database';
 export const AccountUserSchema = new mongoose.Schema<IAccountUser>(
   {
     email: { type: String, unique: true },
-
-    companyId: { type: mongoose.Schema.Types.ObjectId },
+    phoneNumber: { type: String },
     password: { type: String },
-    website: { type: String },
-    name: { type: String },
-    mobile: { type: String },
+    firstName: { type: String },
+    lastName: { type: String },
+    country: { type: String },
+    status: { type: String }
   },
   {
     timestamps: true,

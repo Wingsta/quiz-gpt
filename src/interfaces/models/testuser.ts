@@ -5,8 +5,7 @@
  */
 import { Types } from "mongoose";
 
-
-export interface IAccountUser {
+export interface ITestUsers {
   _id: Types.ObjectId;
   email: string;
 
@@ -14,7 +13,6 @@ export interface IAccountUser {
   firstName: string;
   lastName: string;
   country: string;
-  password : string;
-  status : 'PAID' | 'TRIAL' | 'DEACTIVATED'
-  
+  accountId: Types.ObjectId;
+  testCount : number;
 }

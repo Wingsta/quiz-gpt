@@ -8,7 +8,7 @@ import { Application } from 'express';
 import * as passport from 'passport';
 
 import LocalStrategy from '../services/strategies/Local';
-import ProfileStrategy from '../services/strategies/Profile';
+
 import TwitterStrategy from '../services/strategies/Twitter';
 
 import User from '../models/User';
@@ -37,8 +37,8 @@ class Passport {
 	public mountLocalStrategies(): void {
 		try {
 			let j = LocalStrategy.init(passport);
-			let k = ProfileStrategy.init(passport);
-			console.log(k,j)
+			
+			
 			// TwitterStrategy.init(passport);
 		} catch (_err) {
 			console.log(_err)

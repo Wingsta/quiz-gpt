@@ -7,21 +7,21 @@
 import * as jwt from "jsonwebtoken";
 import { Request, Response } from "express";
 import AccountUser from "../../../models/accountuser";
-import { IAccountUser, ICompany } from "../../../interfaces/models/accountuser";
+import { IAccountUser } from "../../../interfaces/models/accountuser";
 import * as bcrypt from "bcryptjs";
 
 // import { Types  } from "mongoose";
 import Locals from "../../../providers/Locals";
 import { ObjectID, ObjectId } from "mongodb";
 import axios from "axios";
-import Company from "../../../models/company";
+
 import {
 	sendErrorResponse,
 	sendResponse,
 	sendSuccessResponse,
 } from "../../../services/response/sendresponse";
 
-interface ISignupGet extends IAccountUser, ICompany { }
+interface ISignupGet extends IAccountUser { }
 
 const generateHash = async (plainPassword: string) => {
 	const salt = bcrypt.genSaltSync(10);
@@ -67,8 +67,8 @@ class AccountUserAuth {
 				const token = jwt.sign(
 					{
 						email: body.email,
-						name: body.name,
-						companyId: account?.companyId,
+						name: body.firstName,
+						
 						accountId: account?._id,
 					},
 					Locals.config().appSecret,
@@ -77,10 +77,10 @@ class AccountUserAuth {
 					}
 				);
 
-				let companyDetails = await Company.findOne({ _id: account?.companyId });
+				
 
 				return res.json(
-					sendSuccessResponse({ account, token, company: companyDetails })
+					sendSuccessResponse({ account, token })
 				);
 			}
 
@@ -95,7 +95,7 @@ class AccountUserAuth {
 		try {
 			let body = req.body as ISignupGet & { type: "GOOGLE" };
 
-			let company: ICompany;
+			
 			const email = body.email;
 
 			if (!email) {
@@ -110,33 +110,7 @@ class AccountUserAuth {
 				return res.json(sendErrorResponse("email already exists"));
 			}
 
-			if (body.password && body.type !== "GOOGLE") {
-				body.password = await generateHash(body.password);
-			}
-
-			if (body.companyName) {
-
-				let companyDetails = {}
-
-				if (body.promoCode) {
-					companyDetails = {
-						companyName: body.companyName,
-						promoCode: body.promoCode
-					}
-				} else {
-					companyDetails = {
-						companyName: body.companyName
-					}
-				}
-
-				company = await new Company(companyDetails).save();
-
-				if (!company?._id) {
-					return res.json(sendErrorResponse("company creation failed"));
-				}
-
-				body.companyId = new ObjectID(company?._id);
-			}
+		
 
 			let accountuser = await new AccountUser(body).save();
 
@@ -144,8 +118,8 @@ class AccountUserAuth {
 				const token = jwt.sign(
 					{
 						email: body.email,
-						name: body.name,
-						companyId: accountuser?.companyId,
+						name: body.firstName,
+						
 						accountId: accountuser?._id,
 					},
 					Locals.config().appSecret,
@@ -155,7 +129,7 @@ class AccountUserAuth {
 				);
 
 				return res.json(
-					sendSuccessResponse({ token, account: accountuser, company })
+					sendSuccessResponse({ token, account: accountuser })
 				);
 			}
 			return res.json(sendErrorResponse("signup failed"));
@@ -246,13 +220,13 @@ class AccountUserAuth {
 
 			delete accountUpdateDoc._id;
 			delete accountUpdateDoc.password;
-			delete accountUpdateDoc.companyId;
+			
 
-			if (accountUpdateDoc.mobile) {
+			if (accountUpdateDoc.phoneNumber) {
 				let checkExisting = await AccountUser.findOne({
-					mobile: accountUpdateDoc.mobile,
-					_id: { $ne: new ObjectId(accountId) },
-				}).lean();
+          phoneNumber: accountUpdateDoc.phoneNumber,
+          _id: { $ne: new ObjectId(accountId) },
+        }).lean();
 
 				if (checkExisting) {
 					return res.json(

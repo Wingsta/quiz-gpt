@@ -11,7 +11,7 @@ import Locals from "../providers/Locals";
 
 import AccountUserController from "../controllers/Api/AccountUserAuth";
 
-import { getScreenShot } from "../controllers/Api/common/pupeeter";
+// import { getScreenShot } from "../controllers/Api/common/pupeeter";
 
 const router = Router();
 
