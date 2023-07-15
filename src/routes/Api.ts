@@ -10,6 +10,7 @@ import * as passport from "passport";
 import Locals from "../providers/Locals";
 
 import AccountUserController from "../controllers/Api/AccountUserAuth";
+import AuthRefreshController from "../controllers/Api/Auth/RefreshToken";
 
 // import { getScreenShot } from "../controllers/Api/common/pupeeter";
 
@@ -49,6 +50,11 @@ router.patch(
 	AccountUserController.patchAccountUser
 );
 
+router.get(
+  "/refreshToken",
+  passport.authenticate("jwt", { session: false }),
+  AuthRefreshController.perform
+);
 
 
 export default router;
