@@ -8,7 +8,6 @@ import { Types } from "mongoose";
 export interface ITestDetails {
   _id: Types.ObjectId;
   title: string;
-
   logo: string;
   description: string;
   instructions: string;

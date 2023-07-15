@@ -33,9 +33,9 @@ router.post(
 
 
 router.post(
-	"/change-password",
-	passport.authenticate("jwt", { session: false }),
-	AccountUserController.resetPassword
+  "/change-password",
+  passport.authenticate("jwt", { session: false }),
+  AccountUserController.changePassword
 );
 
 router.get(
