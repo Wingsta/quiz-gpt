@@ -48,9 +48,7 @@ class AccountUserAuth {
       }
 
       if (body.type !== "GOOGLE" && !account.password) {
-        return res.json(
-          sendErrorResponse("Please user Google login for the given Email!")
-        );
+        return res.json(sendErrorResponse("Incorrect Password!"));
       }
 
       if (
