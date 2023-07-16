@@ -11,6 +11,7 @@ import Locals from "../providers/Locals";
 
 import AccountUserController from "../controllers/Api/AccountUserAuth";
 import AuthRefreshController from "../controllers/Api/Auth/RefreshToken";
+import TestDetailsController from "../controllers/Api/test_details";
 
 // import { getScreenShot } from "../controllers/Api/common/pupeeter";
 
@@ -54,6 +55,38 @@ router.get(
   "/refreshToken",
   passport.authenticate("jwt", { session: false }),
   AuthRefreshController.perform
+);
+
+router.get(
+  "/test-details/",
+  passport.authenticate("jwt", { session: false }),
+  TestDetailsController.getTestDetails
+);
+
+router.get(
+  "/test-details/:testDetailsId",
+  passport.authenticate("jwt", { session: false }),
+  TestDetailsController.getOneTestDetails
+);
+
+router.post(
+  "/test-details/",
+  passport.authenticate("jwt", { session: false }),
+  TestDetailsController.postTest
+);
+
+
+router.patch(
+  "/test-details/:testDetailsId",
+  passport.authenticate("jwt", { session: false }),
+  TestDetailsController.patchTest
+);
+
+
+router.delete(
+  "/test-details/:testDetailsId",
+  passport.authenticate("jwt", { session: false }),
+  TestDetailsController.deleteTest
 );
 
 
