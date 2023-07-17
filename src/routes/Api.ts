@@ -75,6 +75,12 @@ router.post(
   TestDetailsController.postTest
 );
 
+router.post(
+  "/test-details/get-questions",
+  passport.authenticate("jwt", { session: false }),
+  TestDetailsController.postGpt
+);
+
 
 router.patch(
   "/test-details/:testDetailsId",

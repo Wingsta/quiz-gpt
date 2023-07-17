@@ -5,6 +5,18 @@
  */
 import { Types } from "mongoose";
 
+export interface IQuestions {
+  questionType: 'MCQ';
+  question: string;
+  options: {
+    option: string;
+    correctAnswer: string;
+  }[];
+  limit: string;
+  authorEdited: string;
+  favorite: string;
+}
+
 export interface ITestDetails {
   _id: Types.ObjectId;
   title: string;
@@ -15,4 +27,5 @@ export interface ITestDetails {
   difficulty: number;
   prompt: string;
   accountUser: Types.ObjectId;
+  questions : IQuestions[]
 }

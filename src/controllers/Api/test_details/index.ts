@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import {  ObjectId } from "mongodb";
+import { ObjectId } from "mongodb";
 
 import { ITestDetails } from "../../../interfaces/models/testdetails";
 import {
@@ -12,8 +12,6 @@ import MTestDetails from "../../../models/test_details";
 import moment = require("moment");
 
 import * as fs from "fs";
-
-
 
 class ProfileController {
   public static async getTestDetails(
@@ -196,6 +194,55 @@ class ProfileController {
       }
 
       return res.json(sendSuccessResponse({ testDetails: savedTestDetails }));
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  public static async postGpt(req: Request, res: Response, next: NextFunction) {
+    try {
+      let testDetails = req.body.testDetails as ITestDetails;
+      let { accountId } = req.user as { accountId: string };
+
+      if (!testDetails) {
+        return res.json(sendErrorResponse("testdetails needed"));
+      }
+
+      if (!accountId) {
+        return res.json(sendErrorResponse("unauthorised"));
+      }
+
+      return res.json(
+        sendSuccessResponse({
+          questions: [
+            {
+              question: "What is the capital of France?",
+              options: [
+                { option: "Paris", correctAnswer: true },
+                { option: "Madrid",  },
+                { option: "London",  },
+                { option: "Rome",  },
+              ],
+              limit: "30 minutes",
+              authorEdited: "John Doe",
+              favorite: "Yes",
+            },
+            {
+              question: "Which planet is known as the Red Planet?",
+              options: [
+                { option: "Venus",  },
+                { option: "Mars", correctAnswer: true},
+                { option: "Mercury", },
+                { option: "Saturn", },
+              ],
+              limit: "15 minutes",
+              authorEdited: "Jane Smith",
+              favorite: "No",
+            },
+            // Add more objects here
+          ],
+        })
+      );
     } catch (error) {
       next(error);
     }
