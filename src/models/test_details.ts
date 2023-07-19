@@ -57,7 +57,7 @@ export const ITestDetailsSchema = new mongoose.Schema<ITestDetails>(
     noOfQuestions: { type: Number },
     difficulty: { type: Number },
     prompt: { type: String },
-    questions : {type : questionSchema},
+    questions : {type : [questionSchema]},
     accountUser: { type: Types.ObjectId, ref: "AccountUser" },
   },
   {
