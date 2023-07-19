@@ -12,6 +12,7 @@ import MTestDetails from "../../../models/test_details";
 import moment = require("moment");
 
 import * as fs from "fs";
+import { replaceSpecialChars } from "../../../utils/constants";
 
 class ProfileController {
   public static async getTestDetails(
@@ -34,6 +35,7 @@ class ProfileController {
         sortBy = "createdAt",
         sortType = "desc",
         status,
+        searchTerm,
       } = req.query as unknown as {
         limit: number;
         offset: number;
@@ -42,6 +44,7 @@ class ProfileController {
         endDate: Date;
         sortType: string;
         status: string;
+        searchTerm: string;
       };
 
       if (limit) {
@@ -82,6 +85,15 @@ class ProfileController {
         });
       }
 
+       if (searchTerm) {
+         searchTerm = replaceSpecialChars(searchTerm);
+         mongoQuery["$or"] = [
+           { prompt: new RegExp(searchTerm, "i") },
+           { title: new RegExp(searchTerm, "i") },
+           { description: new RegExp(searchTerm, "i") },
+           
+         ];
+       }
       let testDetails = await MTestDetails.find(mongoQuery)
         .sort([[sortBy, sortType === "asc" ? 1 : -1]])
         .skip(offset)
