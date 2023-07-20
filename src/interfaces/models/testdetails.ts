@@ -10,7 +10,7 @@ export interface IQuestions {
   question: string;
   options: {
     option: string;
-    correctAnswer: string;
+    correctAnswer: boolean;
   }[];
   limit: string;
   authorEdited: string;
