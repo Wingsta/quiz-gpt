@@ -205,7 +205,7 @@ class ProfileController {
         return res.json(sendErrorResponse("productDetails not saved"));
       }
 
-      return res.json(sendSuccessResponse({ testDetails: savedTestDetails }));
+      return res.json(sendSuccessResponse({ testDetails: savedTestDetails }, "Quiz added successfully!"));
     } catch (error) {
       next(error);
     }
@@ -290,7 +290,7 @@ class ProfileController {
         return res.json(sendErrorResponse("productDetails not saved"));
       }
 
-      return res.json(sendSuccessResponse({ testDetails: savedTestDetails }));
+      return res.json(sendSuccessResponse({ testDetails: savedTestDetails }, "Quiz updated successfully!"));
     } catch (error) {
       next(error);
     }
@@ -321,7 +321,7 @@ class ProfileController {
         return res.json(sendErrorResponse("productDetails not saved"));
       }
 
-      return res.json(sendSuccessResponse({ testDetails: savedTestDetails }));
+      return res.json(sendSuccessResponse({ testDetails: savedTestDetails }, "Quiz deleted successfully!"));
     } catch (error) {
       next(error);
     }
