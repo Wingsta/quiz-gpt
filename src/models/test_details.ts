@@ -28,7 +28,7 @@ export const questionSchema = new mongoose.Schema<IQuestions>({
         
       },
       correctAnswer: {
-        type: String,
+        type: Boolean,
         
       },
     },
