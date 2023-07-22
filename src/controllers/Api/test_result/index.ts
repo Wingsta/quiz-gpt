@@ -8,6 +8,7 @@ import {
 } from "../../../services/response/sendresponse";
 
 import MTestResult from "../../../models/testresult";
+import MTestDetails from "../../../models/test_details";
 
 import moment = require("moment");
 
@@ -245,6 +246,27 @@ class TestResultController {
 
       testResults.testUserId = new ObjectId(testUserId);
 
+      let testDetails = await MTestDetails.findOne(
+        {
+          _id: testResults.testId,
+        },
+        
+      )
+        
+        .lean();
+
+
+        if(testResults?.questions){
+          testResults.questions = testResults?.questions.map(it => {
+            let matchQuestions = testDetails?.questions?.find(tt => tt.questionId === it?.questionId)
+
+            let options = it?.options?.map(mt => ({...mt, correctAnswer : matchQuestions?.options?.find(kt => kt.option === mt.option)?.correctAnswer}))
+
+            it.options = options;
+
+            return it
+          })
+        }
       let savedTestResults = await new MTestResult(testResults).save();
 
       if (!savedTestResults) {
