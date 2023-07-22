@@ -282,7 +282,7 @@ class TestResultController {
 
       return res.json(
         sendSuccessResponse(
-          { testResults: savedTestResults },
+          { },
           "Result added successfully!"
         )
       );
