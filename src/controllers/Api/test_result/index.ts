@@ -260,8 +260,15 @@ class TestResultController {
           testResults.questions = testResults?.questions.map(it => {
             let matchQuestions = testDetails?.questions?.find(tt => tt.questionId === it?.questionId)
 
-            let options = it?.options?.map(mt => ({...mt, correctAnswer : matchQuestions?.options?.find(kt => kt.option === mt.option)?.correctAnswer}))
+            
+            let options = it?.options?.map((mt) => ({
+              ...mt,
+              correctAnswer: matchQuestions?.options?.find(
+                (kt) => kt._id && kt._id?.toString() === mt._id?.toString()
+              )?.correctAnswer,
+            }));
 
+ 
             it.options = options;
 
             return it
