@@ -188,7 +188,7 @@ class ProfileController {
       let { testDetailsId } = req.params as { testDetailsId: string };
 
       if (!testDetailsId || !ObjectId.isValid(testDetailsId)) {
-        return res.json(sendErrorResponse("testDetailsId needed"));
+        return res.json(sendErrorResponse("INVALID_TEST_DETAILS_ID"));
       }
 
      
