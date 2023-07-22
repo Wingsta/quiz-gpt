@@ -88,7 +88,7 @@ class TestResultController {
         .sort([[sortBy, sortType === "asc" ? 1 : -1]])
         .skip(offset)
         .limit(limit)
-        .populate("TestUser")
+        .populate("testUserId")
         .lean();
 
       let count = await MTestResult.count(mongoQuery);
@@ -158,7 +158,9 @@ class TestResultController {
 
       let savedTestResults = await MTestResult.findOne({
         _id: testResultsId,
-      }).populate("TestUser").lean();
+      })
+        .populate("testUserId")
+        .lean();
 
       if (!savedTestResults) {
         return res.json(sendErrorResponse("testResults not found"));
