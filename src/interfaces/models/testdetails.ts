@@ -6,11 +6,12 @@
 import { Types } from "mongoose";
 
 export interface IQuestions {
-  questionType: 'MCQ';
+  questionType: "MCQ";
   question: string;
   options: {
     option: string;
     correctAnswer: boolean;
+    selected: boolean;
   }[];
   limit: string;
   authorEdited: string;
