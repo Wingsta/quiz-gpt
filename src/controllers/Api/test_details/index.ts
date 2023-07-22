@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { ObjectId } from "mongodb";
 
 import { ITestDetails } from "../../../interfaces/models/testdetails";
+import MTestResult from "../../../models/testresult";
 import {
   sendErrorResponse,
   sendSuccessResponse,
@@ -221,7 +222,15 @@ class ProfileController {
           })),
         }));
       }
-      return res.json(sendSuccessResponse({ testDetails: savedTestDetails }));
+
+          let testResultsCount = await MTestResult.count({
+            testId: testDetailsId,
+            testUserId: testUserId,
+          });
+
+      return res.json(
+        sendSuccessResponse({ testDetails: savedTestDetails, attempted  :testResultsCount })
+      );
     } catch (error) {
       next(error);
     }
