@@ -208,7 +208,7 @@ class ProfileController {
         .lean();
 
       if (!savedTestDetails) {
-        return res.json(sendErrorResponse("testDetails not found"));
+        return res.json(sendErrorResponse("Test Id is not valid"));
       }
 
       return res.json(sendSuccessResponse({ testDetails: savedTestDetails }));
