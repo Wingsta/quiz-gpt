@@ -21,6 +21,11 @@ export const questionSchema = new mongoose.Schema<IQuestions>({
     type: String,
     required: true,
   },
+
+  questionId: {
+    type: String,
+    required: true,
+  },
   options: [
     {
       option: {

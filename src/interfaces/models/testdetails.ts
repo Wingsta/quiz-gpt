@@ -8,6 +8,7 @@ import { Types } from "mongoose";
 export interface IQuestions {
   questionType: "MCQ";
   question: string;
+  questionId: string;
   options: {
     option: string;
     correctAnswer: boolean;
