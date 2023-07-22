@@ -95,5 +95,19 @@ router.delete(
   TestDetailsController.deleteTest
 );
 
+router.get(
+  "/public/login/",
+  passport.authenticate("jwt", { session: false }),
+  TestDetailsController.deleteTest
+);
+
+router.get(
+  "/public/test-details/:testDetailsId",
+  
+  TestDetailsController.getOneTestDetailsPublic
+);
+
+
+
 
 export default router;

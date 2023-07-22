@@ -85,15 +85,14 @@ class ProfileController {
         });
       }
 
-       if (searchTerm) {
-         searchTerm = replaceSpecialChars(searchTerm);
-         mongoQuery["$or"] = [
-           { prompt: new RegExp(searchTerm, "i") },
-           { title: new RegExp(searchTerm, "i") },
-           { description: new RegExp(searchTerm, "i") },
-           
-         ];
-       }
+      if (searchTerm) {
+        searchTerm = replaceSpecialChars(searchTerm);
+        mongoQuery["$or"] = [
+          { prompt: new RegExp(searchTerm, "i") },
+          { title: new RegExp(searchTerm, "i") },
+          { description: new RegExp(searchTerm, "i") },
+        ];
+      }
       let testDetails = await MTestDetails.find(mongoQuery)
         .sort([[sortBy, sortType === "asc" ? 1 : -1]])
         .skip(offset)
@@ -179,6 +178,45 @@ class ProfileController {
     }
   }
 
+  public static async getOneTestDetailsPublic(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      
+      let { testDetailsId } = req.params as { testDetailsId: string };
+
+      if (!testDetailsId) {
+        return res.json(sendErrorResponse("testDetailsId needed"));
+      }
+
+     
+
+      let savedTestDetails = await MTestDetails.findOne(
+        {
+          _id: testDetailsId,
+        },
+        {
+          questions: 0,
+          prompt: 0,
+          noOfQuestions: 0,
+          difficulty: 0,
+        }
+      )
+        .populate("accountUser")
+        .lean();
+
+      if (!savedTestDetails) {
+        return res.json(sendErrorResponse("testDetails not found"));
+      }
+
+      return res.json(sendSuccessResponse({ testDetails: savedTestDetails }));
+    } catch (error) {
+      next(error);
+    }
+  }
+
   public static async postTest(
     req: Request,
     res: Response,
@@ -205,7 +243,12 @@ class ProfileController {
         return res.json(sendErrorResponse("productDetails not saved"));
       }
 
-      return res.json(sendSuccessResponse({ testDetails: savedTestDetails }, "Quiz added successfully!"));
+      return res.json(
+        sendSuccessResponse(
+          { testDetails: savedTestDetails },
+          "Quiz added successfully!"
+        )
+      );
     } catch (error) {
       next(error);
     }
@@ -231,9 +274,9 @@ class ProfileController {
               question: "What is the capital of France?",
               options: [
                 { option: "Paris", correctAnswer: true },
-                { option: "Madrid",  },
-                { option: "London",  },
-                { option: "Rome",  },
+                { option: "Madrid" },
+                { option: "London" },
+                { option: "Rome" },
               ],
               limit: "30 minutes",
               authorEdited: "John Doe",
@@ -242,10 +285,10 @@ class ProfileController {
             {
               question: "Which planet is known as the Red Planet?",
               options: [
-                { option: "Venus",  },
-                { option: "Mars", correctAnswer: true},
-                { option: "Mercury", },
-                { option: "Saturn", },
+                { option: "Venus" },
+                { option: "Mars", correctAnswer: true },
+                { option: "Mercury" },
+                { option: "Saturn" },
               ],
               limit: "15 minutes",
               authorEdited: "Jane Smith",
@@ -290,7 +333,12 @@ class ProfileController {
         return res.json(sendErrorResponse("productDetails not saved"));
       }
 
-      return res.json(sendSuccessResponse({ testDetails: savedTestDetails }, "Quiz updated successfully!"));
+      return res.json(
+        sendSuccessResponse(
+          { testDetails: savedTestDetails },
+          "Quiz updated successfully!"
+        )
+      );
     } catch (error) {
       next(error);
     }
@@ -321,7 +369,12 @@ class ProfileController {
         return res.json(sendErrorResponse("productDetails not saved"));
       }
 
-      return res.json(sendSuccessResponse({ testDetails: savedTestDetails }, "Quiz deleted successfully!"));
+      return res.json(
+        sendSuccessResponse(
+          { testDetails: savedTestDetails },
+          "Quiz deleted successfully!"
+        )
+      );
     } catch (error) {
       next(error);
     }
