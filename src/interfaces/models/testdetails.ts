@@ -13,6 +13,7 @@ export interface IQuestions {
     correctAnswer: boolean;
     selected: boolean;
   }[];
+  answered?: boolean;
   limit: string;
   authorEdited: string;
   favorite: string;

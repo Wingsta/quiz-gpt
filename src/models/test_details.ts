@@ -34,10 +34,13 @@ export const questionSchema = new mongoose.Schema<IQuestions>({
       },
       weightage: {
         type: Number,
-        default : 1
+        default: 1,
       },
     },
   ],
+  answered: {
+    type: Boolean,
+  },
   limit: {
     type: String,
   },
