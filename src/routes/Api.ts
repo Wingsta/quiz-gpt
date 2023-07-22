@@ -12,6 +12,7 @@ import Locals from "../providers/Locals";
 import AccountUserController from "../controllers/Api/AccountUserAuth";
 import AuthRefreshController from "../controllers/Api/Auth/RefreshToken";
 import TestDetailsController from "../controllers/Api/test_details";
+import TestUserController from "../controllers/Api/test_user";
 
 // import { getScreenShot } from "../controllers/Api/common/pupeeter";
 
@@ -102,10 +103,42 @@ router.get(
 );
 
 router.get(
-  "/public/test-details/:testDetailsId",
+  "/public/verify/:testDetailsId",
   
   TestDetailsController.getOneTestDetailsPublic
 );
+
+
+router.post(
+  "/public/login",
+
+  TestUserController.signup
+);
+
+router.get(
+  "/public/test-user",
+  passport.authenticate("profile", { session: false }),
+  TestUserController.getTestUser
+);
+
+router.patch(
+  "/public/test-user",
+  passport.authenticate("profile", { session: false }),
+  TestUserController.patchTestUser
+);
+
+router.get(
+  "/public/refreshToken",
+  passport.authenticate("profile", { session: false }),
+  AuthRefreshController.performTestUser
+);
+
+router.get(
+  "/public/test-details/:testDetailsId",
+  passport.authenticate("profile", { session: false }),
+  TestDetailsController.getOneTestDetailsPublic
+);
+
 
 
 

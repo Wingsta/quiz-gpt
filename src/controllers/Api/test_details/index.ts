@@ -184,25 +184,26 @@ class ProfileController {
     next: NextFunction
   ) {
     try {
-      
+      let { testUserId } = req.user as { testUserId: string } || {};
+
       let { testDetailsId } = req.params as { testDetailsId: string };
 
       if (!testDetailsId || !ObjectId.isValid(testDetailsId)) {
         return res.json(sendErrorResponse("Test Id is not valid"));
       }
 
-     
-
       let savedTestDetails = await MTestDetails.findOne(
         {
           _id: testDetailsId,
         },
-        {
-          questions: 0,
-          prompt: 0,
-          noOfQuestions: 0,
-          difficulty: 0,
-        }
+        !testUserId
+          ? {
+              questions: 0,
+              prompt: 0,
+              noOfQuestions: 0,
+              difficulty: 0,
+            }
+          : { difficulty: 0, prompt: 0 }
       )
         .populate("accountUser")
         .lean();
@@ -211,6 +212,15 @@ class ProfileController {
         return res.json(sendErrorResponse("Test Id is not valid"));
       }
 
+      if (testUserId) {
+        savedTestDetails.questions = savedTestDetails.questions?.map((it) => ({
+          ...it,
+          options: it.options?.map((tt) => ({
+            ...tt,
+            correctAnswer: undefined,
+          })),
+        }));
+      }
       return res.json(sendSuccessResponse({ testDetails: savedTestDetails }));
     } catch (error) {
       next(error);

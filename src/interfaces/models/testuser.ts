@@ -13,6 +13,6 @@ export interface ITestUsers {
   firstName: string;
   lastName: string;
   country: string;
-  accountId: Types.ObjectId;
-  testCount : number;
+  password: string;
+  testCount: number;
 }

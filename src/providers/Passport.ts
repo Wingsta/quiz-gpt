@@ -9,7 +9,7 @@ import * as passport from 'passport';
 
 import LocalStrategy from '../services/strategies/Local';
 
-import TwitterStrategy from '../services/strategies/Twitter';
+import ProfileStrategy from '../services/strategies/Profile';
 
 import User from '../models/User';
 import Log from '../middlewares/Log';
@@ -36,8 +36,8 @@ class Passport {
 
 	public mountLocalStrategies(): void {
 		try {
-			let j = LocalStrategy.init(passport);
-			
+			LocalStrategy.init(passport);
+			ProfileStrategy.init(passport)
 			
 			// TwitterStrategy.init(passport);
 		} catch (_err) {
