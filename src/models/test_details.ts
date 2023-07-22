@@ -25,25 +25,27 @@ export const questionSchema = new mongoose.Schema<IQuestions>({
     {
       option: {
         type: String,
-        
       },
       correctAnswer: {
         type: Boolean,
-        
+      },
+      selected: {
+        type: Boolean,
+      },
+      weightage: {
+        type: Number,
+        default : 1
       },
     },
   ],
   limit: {
     type: String,
-    
   },
   authorEdited: {
     type: String,
-    
   },
   favorite: {
     type: String,
-    
   },
 });
 

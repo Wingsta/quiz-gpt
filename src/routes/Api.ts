@@ -13,6 +13,7 @@ import AccountUserController from "../controllers/Api/AccountUserAuth";
 import AuthRefreshController from "../controllers/Api/Auth/RefreshToken";
 import TestDetailsController from "../controllers/Api/test_details";
 import TestUserController from "../controllers/Api/test_user";
+import TestResultController from '../controllers/Api/test_result'
 
 // import { getScreenShot } from "../controllers/Api/common/pupeeter";
 
@@ -97,6 +98,31 @@ router.delete(
 );
 
 router.get(
+  "/test-results/",
+  passport.authenticate("jwt", { session: false }),
+  TestResultController.getTestResults
+);
+
+router.get(
+  "/test-results/:testResultsId",
+  passport.authenticate("jwt", { session: false }),
+  TestResultController.getOneTestResults
+);
+
+router.patch(
+  "/test-results/:testResultsId",
+  passport.authenticate("jwt", { session: false }),
+  TestResultController.patchTest
+);
+
+router.delete(
+  "/test-results/:testResultsId",
+  passport.authenticate("jwt", { session: false }),
+  TestResultController.deleteTest
+);
+
+
+router.get(
   "/public/login/",
   passport.authenticate("jwt", { session: false }),
   TestDetailsController.deleteTest
@@ -138,6 +164,20 @@ router.get(
   passport.authenticate("profile", { session: false }),
   TestDetailsController.getOneTestDetailsPublic
 );
+
+router.get(
+  "/public/test-details/:testDetailsId",
+  passport.authenticate("profile", { session: false }),
+  TestDetailsController.getOneTestDetailsPublic
+);
+
+router.post(
+  "/public/test-results",
+  passport.authenticate("profile", { session: false }),
+  TestResultController.postTest
+);
+
+
 
 
 
