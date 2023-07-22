@@ -161,6 +161,7 @@ class TestResultController {
         _id: testResultsId,
       })
         .populate("testUserId")
+        .populate("testId")
         .lean();
 
       if (!savedTestResults) {
