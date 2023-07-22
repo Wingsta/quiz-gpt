@@ -23,7 +23,7 @@ export const questionSchema = new mongoose.Schema<IQuestions>({
   },
 
   questionId: {
-    type: String,
+    type: String, 
     required: true,
   },
   options: [
