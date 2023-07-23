@@ -5,7 +5,6 @@
  * @author Faiz A. Farooqui <faiz@geekyants.com>
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-const cors = require("cors");
 const multer = require("multer");
 const compress = require("compression");
 const connect = require("connect-mongo");
@@ -62,7 +61,7 @@ class Http {
         };
         // _express.use(session(options));
         // Enables the CORS
-        _express.use(cors());
+        // _express.use(cors());
         // Enables the "gzip" / "deflate" compression for response
         _express.use(compress());
         // Loads the passport configuration
