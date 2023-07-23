@@ -14,6 +14,7 @@ class Database {
     // Initialize your database pool
     static init() {
         const dsn = Locals_1.default.config().mongooseUrl;
+        console.log(dsn);
         const options = { useNewUrlParser: true, useUnifiedTopology: true };
         mongoose.Promise = bluebird;
         // mongoose.set('useCreateIndex', true);
