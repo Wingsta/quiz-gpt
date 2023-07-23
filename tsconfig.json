@@ -19,6 +19,6 @@
   ],
   "exclude": [
     "typings/*",
-    
+    "node_modules"
   ]
 }
