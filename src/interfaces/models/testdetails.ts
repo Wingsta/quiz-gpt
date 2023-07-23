@@ -6,10 +6,12 @@
 import { Types } from "mongoose";
 
 export interface IQuestions {
+  _id: Types.ObjectId;
   questionType: "MCQ";
   question: string;
   questionId: string;
   options: {
+    _id: Types.ObjectId;
     option: string;
     correctAnswer: boolean;
     selected: boolean;
