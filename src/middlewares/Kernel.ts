@@ -18,6 +18,7 @@ import Locals from '../providers/Locals';
 class Kernel {
 	public static init (_express: Application): Application {
 		// Check if CORS is enabled
+		console.log(Locals.config().isCORSEnabled, "Locals.config().isCORSEnabled");
 		if (Locals.config().isCORSEnabled) {
 			// Mount CORS middleware
 			_express = CORS.mount(_express);
