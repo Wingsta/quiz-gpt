@@ -61,7 +61,6 @@
     "ts-node-dev": "^2.0.0",
     "tslint": "^5.11.0",
     "uuid": "^9.0.0",
-    "whatsapp-web.js": "^1.19.4",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
